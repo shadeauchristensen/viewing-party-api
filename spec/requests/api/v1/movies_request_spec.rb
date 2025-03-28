@@ -47,5 +47,26 @@ RSpec.describe "Top rated movies API", type: :request do
             expect(json).to have_key(:error)
             expect(json[:error]).to eq("Unexpected error occurred: Something went wrong")
         end
+
+        it "HAPPY PATH: returns up to 20 movies matching search params", :vcr do
+            get "/api/v1/movies?query=ring"
+
+            puts response.status
+            puts response.body
+
+            expect(response).to be_successful
+
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(json).to be_an(Array)
+            expect(json.count).to be <= 20
+
+            json.each do | movie |
+                expect(movie).to have_key(:id)
+                expect(movie[:type]).to eq("movie")
+                expect(movie[:attributes]).to have_key(:title)
+                expect(movie[:attributes]).to have_key(:vote_average)
+            end
+        end
     end
 end
