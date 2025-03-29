@@ -51,9 +51,6 @@ RSpec.describe "Top rated movies API", type: :request do
         it "HAPPY PATH: returns up to 20 movies matching search params", :vcr do
             get "/api/v1/movies?query=ring"
 
-            puts response.status
-            puts response.body
-
             expect(response).to be_successful
 
             json = JSON.parse(response.body, symbolize_names: true)
@@ -67,6 +64,51 @@ RSpec.describe "Top rated movies API", type: :request do
                 expect(movie[:attributes]).to have_key(:title)
                 expect(movie[:attributes]).to have_key(:vote_average)
             end
+        end
+
+        it "SAD PATH: returns errors if failed to retrieve title" do
+            allow(MovieDbService).to receive(:search_movies).and_return({ results: nil })
+
+            get "/api/v1/movies?query="
+
+            expect(response).not_to be_successful
+            expect(response).to have_http_status(:bad_request)
+
+            json = JSON.parse(response.body, symbolize_names: true)
+            
+            
+            expect(json).to have_key(:error)
+            expect(json[:error]).to eq("Movie data invalid, cannot return nil")            
+        end
+
+        it "SAD PATH: returns errors if no title exists" do
+            search_term = "gibberish123456"
+
+            allow(MovieDbService).to receive(:search_movies).with(search_term).and_return({ results: [] })
+
+            get "/api/v1/movies?query=#{search_term}"
+
+            expect(response).not_to be_successful
+            expect(response).to have_http_status(:bad_request)
+
+            json = JSON.parse(response.body, symbolize_names: true)
+            
+            
+            expect(json).to have_key(:error)
+            expect(json[:error]).to eq("Movie data invalid, cannot return #{search_term}")            
+        end
+
+        it "SAD PATH: returns 500 error if unexpected error occurs" do
+            allow(MovieDbService).to receive(:search_movies).and_raise(StandardError.new("Something went wrong"))
+
+            get "/api/v1/movies?query=mock_movie_title"
+
+            expect(response).to have_http_status(:internal_server_error)
+
+            json = JSON.parse(response.body, symbolize_names: true)
+
+            expect(json).to have_key(:error)
+            expect(json[:error]).to eq("Unexpected error occurred: Something went wrong")
         end
     end
 end
