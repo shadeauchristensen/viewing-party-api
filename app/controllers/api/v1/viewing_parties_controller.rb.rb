@@ -1,4 +1,4 @@
-class Api::V1::ViewingParty < ApplicationController
+class Api::V1::ViewingPartiesController < ApplicationController
     def create
         begin
             party = ViewingParty.create!(
