@@ -11,7 +11,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
             # if viewing party is valid/ has correct user id, use serializer to create viewing party
             ViewingPartyUser.create!(
                 user_id: params[:host_id],
-                viewing_party_id: party_id,
+                viewing_party_id: party.id,
                 host: true
             )
 
