@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :users, only: [:create, :index]
       resources :sessions, only: :create
       resources :movies, only: [:index]
+      resources :viewing_parties, only: [:index, :create]
     end
   end
   root to: proc { [200, {}, ['It works!']] }
