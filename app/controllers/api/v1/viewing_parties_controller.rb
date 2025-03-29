@@ -23,9 +23,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
                 )
             end
 
-            render json: { message: "Viewing party created!", id: party_id }, status: :created
-            # else render json error for missis params
-
+            render json: ViewingPartySerializer.new(party), status: :created 
         rescue => error
             render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
         end
