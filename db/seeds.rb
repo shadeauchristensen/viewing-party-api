@@ -7,7 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-User.destroy_all
+User.destroy_all #removes
+ActiveRecord::Base.connection.reset_pk_sequence!('users') #starts back at id:1
 
 User.create!(name: "Danny DeVito", username: "danny_de_v", password: "jerseyMikesRox7")
 User.create!(name: "Dolly Parton", username: "dollyP", password: "Jolene123")
