@@ -18,7 +18,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
             params[:invitees].each do |invitee_id|
                 ViewingPartyUser.create!(
                     user_id: invitee_id,
-                    viewing_party_id: party_id,
+                    viewing_party_id: party.id,
                     host: false
                 )
             end
