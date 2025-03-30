@@ -11,7 +11,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
                 movie_title: data[:movie_title]
             )
 
-            valid_invitees = data[:invitees].filter_map { |id| User.find_by (id: id) }
+            valid_invitees = data[:invitees].filter_map { |id| User.find_by(id: id) }
 
             valid_invitees.each do |user|
                 ViewingPartyUser.create!(
