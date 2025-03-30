@@ -3,16 +3,8 @@ class Api::V1::ViewingPartiesController < ApplicationController
         begin
 
         puts params.inspect
-        attributes = params.require(:data).require(:attributes).permit(
-            :name,
-            :start_time,
-            :end_time,
-            :movie_id,
-            :movie_title,
-            invitees: []
-            )
-
-        host_id = params.require(:data).require(:id).to_i
+        attributes = party_params
+        host_id = party_params[:id].to_i
 
         party = ViewingParty.create!(
           name: attributes[:name],
