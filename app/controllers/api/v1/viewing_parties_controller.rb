@@ -8,7 +8,19 @@ class Api::V1::ViewingPartiesController < ApplicationController
 
             if missing_field
                 render json: { message: "Attribute #{missing_field} is missing. Cannot be blank.", status: 400 }, status: :bad_request
+            
             else
+                movie = MovieDbService.movie_details(data[:movie_id])
+                movie_runtime = movie[:runtime]
+
+                party_duration = Time.parse(data[:end_time]) - Time.parse(data[:start_time])
+                party_duration_minutes = party_duration / 60 
+
+                if party_duration_minutes < movie_runtime
+                    render json: { "Party duration cannot be shorter than the movies runtime (#{movie_runtime} minutes.)", status: 400}, status: :bad_request
+                    return
+                end
+
                 party = ViewingParty.create!(
                     name: data[:name],
                     start_time: data[:start_time],
