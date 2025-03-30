@@ -21,6 +21,14 @@ class Api::V1::ViewingPartiesController < ApplicationController
             end
 
             render json: ViewingPartySerializer.new(party), status: :created
+
+            required_fields = [:name, :start_time, :end_time, :movie_id, :movie_title]
+
+            required_fields.each do |field|
+                if data[field].blank?
+                    render json: { message: "Attribute #{field} is missing. Cannot be blank.", status: 400 }, status: :bad_request and return
+                end
+            end
         end
     end
 end
