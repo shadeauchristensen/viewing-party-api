@@ -1,4 +1,5 @@
 class Api::V1::ViewingPartiesController < ApplicationController
+    puts params.inspect
     def create
       begin
         attributes = params[:data][:attributes]
