@@ -34,6 +34,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
             # Rails.logger.error error.backtrace.join("\n")
             render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
         end
+    end
 
     private
 
