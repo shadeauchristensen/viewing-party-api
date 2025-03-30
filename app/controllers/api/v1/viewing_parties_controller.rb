@@ -38,13 +38,15 @@ class Api::V1::ViewingPartiesController < ApplicationController
     private
 
     def party_params
-        params.require(:data).permit(:id, :type, attributes: [
+        params.require(:data).require(:attributes).permit(
+            :id,
+            :type,
             :name,
             :start_time,
             :end_time,
             :movie_id,
             :movie_title,
             invitees: []
-        ])
+        )
     end
 end
