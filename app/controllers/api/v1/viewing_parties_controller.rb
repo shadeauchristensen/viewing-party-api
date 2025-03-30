@@ -13,6 +13,11 @@ class Api::V1::ViewingPartiesController < ApplicationController
                 movie = MovieDbService.movie_details(data[:movie_id])
                 movie_runtime = movie[:runtime]
 
+                if Time.parse(data[:end_time]) < Time.parse(data[:start_time])
+                    render json: { message: "End time cannot be BEFORE start time.", status: 400 }, status: :bad_request
+                    return
+                end
+
                 party_duration = Time.parse(data[:end_time]) - Time.parse(data[:start_time])
                 party_duration_minutes = party_duration / 60 
 
@@ -21,10 +26,6 @@ class Api::V1::ViewingPartiesController < ApplicationController
                     return
                 end
                 
-                if Time.parse(data[:end_time]) < Time.parse(data[:start_time])
-                    render json: { message: "End time cannot be BEFORE start time.", status: 400 }, status: :bad_request
-                    return
-                end
 
                 party = ViewingParty.create!(
                     name: data[:name],
