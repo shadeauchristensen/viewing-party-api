@@ -20,6 +20,10 @@ class Api::V1::ViewingPartiesController < ApplicationController
                     render json: { message: "Party duration cannot be shorter than the movies runtime (#{movie_runtime} minutes.)", status: 400}, status: :bad_request
                     return
                 end
+                
+                if Time.parse(data[:end_time]) < Time.parse(data[:start_time])
+                    render json: { message: "End time cannot be BEFORE start time.", status: 400 }, status: :bad_request
+                end
 
                 party = ViewingParty.create!(
                     name: data[:name],
