@@ -30,8 +30,8 @@ class Api::V1::ViewingPartiesController < ApplicationController
 
         render json: ViewingPartySerializer.new(party), status: :created 
         rescue => error
-            Rails.logger.error "CREATE PARTY ERROR: #{error.message}"
-            Rails.logger.error error.backtrace.join("\n")
+            # Rails.logger.error "CREATE PARTY ERROR: #{error.message}"
+            # Rails.logger.error error.backtrace.join("\n")
             render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
         end
 
