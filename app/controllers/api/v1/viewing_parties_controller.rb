@@ -28,8 +28,21 @@ class Api::V1::ViewingPartiesController < ApplicationController
         end
 
         render json: ViewingPartySerializer.new(party), status: :created 
-      rescue => error
-        render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
-      end
+        rescue => error
+            render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
+        end
+    end
+
+    private
+
+    def party_params
+        params.require(:data).permit(:id, :type, attributes: [
+            :name,
+            :start_time,
+            :end_time,
+            :movie_id,
+            :movie_title,
+            invitees: []
+        ])
     end
 end
