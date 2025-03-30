@@ -2,7 +2,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
     def create
         begin
 
-        # puts params.inspect
+        puts params.inspect
         attributes = party_params[:attributes]
         host_id = party_params[:id].to_i
 
@@ -30,9 +30,10 @@ class Api::V1::ViewingPartiesController < ApplicationController
 
         render json: ViewingPartySerializer.new(party), status: :created 
         rescue => error
+            Rails.logger.error "CREATE PARTY ERROR: #{error.message}"
+            Rails.logger.error error.backtrace.join("\n")
             render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
         end
-    end
 
     private
 
