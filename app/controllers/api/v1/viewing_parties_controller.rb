@@ -1,7 +1,7 @@
 class Api::V1::ViewingPartiesController < ApplicationController
-    puts params.inspect
     def create
-      begin
+        begin
+            puts params.inspect
         attributes = params[:data][:attributes]
         host_id = params[:data][:id].to_i
 
