@@ -1,9 +1,10 @@
 class Api::V1::ViewingPartiesController < ApplicationController
     def create
         begin
-            puts params.inspect
-        attributes = params[:data][:attributes]
-        host_id = params[:data][:id].to_i
+
+        # puts params.inspect
+        attributes = party_params[:attributes]
+        host_id = party_params[:id].to_i
 
         party = ViewingParty.create!(
           name: attributes[:name],
