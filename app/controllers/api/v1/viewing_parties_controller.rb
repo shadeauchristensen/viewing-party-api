@@ -17,7 +17,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
                 party_duration_minutes = party_duration / 60 
 
                 if party_duration_minutes < movie_runtime
-                    render json: { "Party duration cannot be shorter than the movies runtime (#{movie_runtime} minutes.)", status: 400}, status: :bad_request
+                    render json: { message: "Party duration cannot be shorter than the movies runtime (#{movie_runtime} minutes.)", status: 400}, status: :bad_request
                     return
                 end
 
