@@ -25,8 +25,8 @@ class Api::V1::ViewingPartiesController < ApplicationController
 
             render json: ViewingPartySerializer.new(party), status: :created 
         rescue => error
-            puts " ERROR TRACEBACK: #{error.full_message}"
-            render json: { error: "Unexpected error occurred: #{error.message}" }, status: :internal_server_error
+            # puts " ERROR TRACEBACK: #{error.full_message}"
+            render json: { error: "Unexpected error occurred: #{error.full_message}" }, status: :internal_server_error
         end
     end
 end
