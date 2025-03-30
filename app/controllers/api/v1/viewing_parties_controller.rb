@@ -23,6 +23,7 @@ class Api::V1::ViewingPartiesController < ApplicationController
                 
                 if Time.parse(data[:end_time]) < Time.parse(data[:start_time])
                     render json: { message: "End time cannot be BEFORE start time.", status: 400 }, status: :bad_request
+                    return
                 end
 
                 party = ViewingParty.create!(
