@@ -1,7 +1,7 @@
 class UserSerializer
   include JSONAPI::Serializer
-  attributes :name, :username, :api_key
-
+  
+  attributes :name, :username
   attribute :viewing_parties_hosted do |user|
     user.viewing_party_users.select(&:host).map do |vpu|
       party = vpu.viewing_party
