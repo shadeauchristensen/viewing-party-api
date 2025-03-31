@@ -111,4 +111,33 @@ RSpec.describe "Top rated movies API", type: :request do
             expect(json[:error]).to eq("Unexpected error occurred: Something went wrong")
         end
     end
+
+    describe "GET /api/v1/movies/:id" do
+        it "HAPPY PATH: returns details for a valid movie", :vcr do
+            get "/api/v1/movies/278"
+
+            expect(response).to be_successful
+
+            movie = JSON.parse(response.body, symbolize_names: true)
+
+            movie_attributes = movie[:data][:attributes]
+
+            expect(movie[:data]).to have_key(:id)
+            expect(movie_attributes[:title]).to eq("The Shawshank Redemption")
+            expect(movie_attributes[:cast].count).to be <= 10
+            expect(movie_attributes[:reviews].count).to be <= 5
+
+        end
+
+        it "SAD PATH: returns a 500 error if there isn't a valid movie ID" do
+            get "/api/v1/movies/0"
+
+            expect(response.status).to eq(500)
+
+            error = JSON.parse(response.body, symbolize_names: true)
+
+            expect(error).to have_key(:error)
+            expect(error[:error]).to eq("Something went wrong: Must be a valid movie ID")
+        end
+    end
 end

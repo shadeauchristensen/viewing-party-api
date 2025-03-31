@@ -30,7 +30,7 @@ class Api::V1::MoviesController < ApplicationController
             render json: MovieSerializer.details(movie, cast, reviews)
 
         rescue => error
-            render json: { error: "Something went wrong: #{error.message}" }, status: :internal_server_error
+            render json: { error: "Something went wrong: Must be a valid movie ID" }, status: :internal_server_error
         end
     end
 end
