@@ -9,9 +9,7 @@ class Api::V1::InviteesController < ApplicationController
             render json: ViewingPartySerializer.new(party), status: :created
 
         rescue  ActiveRecord::RecordNotFound => error 
-            render json: { message: error.message }, status: :bad_request
-        rescue ActiveRecord::RecordInvalid => error
-            render json: { message: error.message }, status: :bad_request
+            render json: { error: error.message }, status: :bad_request
         end        
     end
 end
