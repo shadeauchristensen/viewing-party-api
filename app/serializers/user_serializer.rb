@@ -27,7 +27,7 @@ class UserSerializer
         end_time: party.end_time,
         movie_id: party.movie_id,
         movie_title: party.movie_title,
-        host_id: party.viewing_party_users.includes(:user).find(&:host)&.user&.id
+        host_id: party.viewing_party_users.find_by(host: true)&.user&.id
       }
     end
   end
