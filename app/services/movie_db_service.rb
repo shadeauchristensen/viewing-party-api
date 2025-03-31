@@ -19,4 +19,14 @@ class MovieDbService
     response = conn.get("movie/#{movie_id}")
     JSON.parse(response.body, symbolize_names: true)
   end
+
+  def self.movie_credits(movie_id)
+    response = conn.get("movie/#{movie_id}/credits")
+    JSON.parse(response.body, symbolize_names: true)
+  end
+
+  def self.movie_reviews(movie_id)
+    response = conn.get("movie/#{movie_id}/reviews")
+    JSON.parse(response.body, symbolize_names: true)
+  end
 end
