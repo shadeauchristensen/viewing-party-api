@@ -3,7 +3,7 @@ class UserSerializer
   attributes :name, :username, :api_key
 
   attribute :viewing_parties_hosted do |user|
-    user.viewing_parties_users.select(&:host).map do |vpu|
+    user.viewing_party_users.select(&:host).map do |vpu|
       party = vpu.viewing_party
       {
         id: party.id,
@@ -18,7 +18,7 @@ class UserSerializer
   end
 
   attribute :viewing_parties_invited do |user|
-    user.viewing_parties_users.reject(&:host).map do |vpu|
+    user.viewing_party_users.reject(&:host).map do |vpu|
       party = vpu.viewing_party
       {
         id: party.id,
@@ -27,7 +27,7 @@ class UserSerializer
         end_time: party.end_time,
         movie_id: party.movie_id,
         movie_title: party.movie_title,
-        host_id: party.viewing_parties_users.find(&:host).user_id,
+        host_id: party.viewing_party_users.find(&:host).user_id,
       }
     end
   end
